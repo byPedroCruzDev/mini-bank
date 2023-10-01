@@ -21,6 +21,7 @@ public class Transaction {
     @Column(columnDefinition = "DECIMAL", nullable = false)
     private float value;
     @CreationTimestamp
+    @Column(updatable = false)
     private Date date;
 
     public Transaction() {

@@ -12,7 +12,6 @@ public class User {
     private String name;
     @Column(length = 11, nullable = false, unique = true)
     private String cpf;
-
     @Column(columnDefinition = "TEXT",nullable = false)
     private String password;
     @Column(length = 63, unique = true, nullable = false)
