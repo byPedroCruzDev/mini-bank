@@ -1,5 +1,6 @@
 package br.com.pedro.learningapring.service;
 
+import br.com.pedro.learningapring.dto.CreatDeposit;
 import br.com.pedro.learningapring.model.User;
 import br.com.pedro.learningapring.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -55,4 +56,15 @@ public class UserServices {
         return foundUser;
     }
 
+
+    public User createDeposit(final CreatDeposit depositData, final long id) throws Exception{
+        final User foundUser = userRepository.findById(id).orElseThrow(() -> new Exception("User not found"));
+
+        final float currentBalance = foundUser.getBalance();
+
+        foundUser.setBalance(currentBalance + depositData.getValue());
+
+        return userRepository.save(foundUser);
+
+    }
 }
