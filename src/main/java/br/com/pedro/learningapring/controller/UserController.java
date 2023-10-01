@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -37,4 +38,25 @@ public class UserController {
         return new ResponseEntity<List<User>>(allUsers, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<User> retriveUser(@PathVariable final String id) throws Exception{
+        final User user = userServices.retriveUser(Long.parseLong(id));
+
+        return new ResponseEntity<User>(user,HttpStatus.OK );
+    }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@RequestBody final User userData, @PathVariable final String id) throws Exception{
+        final User user = userServices.updateUser(userData, Long.parseLong(id));
+
+        return new ResponseEntity<User>(user,HttpStatus.OK );
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable final String id) throws Exception{
+        final User user = userServices.deleteUser(Long.parseLong(id));
+
+        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT );
+    }
 }

@@ -26,5 +26,33 @@ public class UserServices {
         return userRepository.findAll();
     }
 
+    public User retriveUser(final long id) throws Exception{
+        final User user = userRepository.findById(id).orElseThrow(() -> new Exception("User not found"));
+
+        return user;
+    }
+
+    public User updateUser(final User userData, final long id) throws Exception{
+        final User foundUser = userRepository.findById(id).orElseThrow(() -> new Exception("User not found"));
+
+        System.out.println(foundUser);
+        System.out.println("---------");
+        System.out.println(id);
+
+        foundUser.setName(userData.getName());
+        foundUser.setCpf(userData.getCpf());
+        foundUser.setEmail(userData.getEmail());
+        foundUser.setPassword(userData.getPassword());
+        foundUser.setType(userData.getType());
+
+        return userRepository.save(foundUser);
+    }
+
+    public User deleteUser(final long id) throws Exception{
+        final User foundUser = userRepository.findById(id).orElseThrow(() -> new Exception("User not found"));
+
+        userRepository.delete(foundUser);
+        return foundUser;
+    }
 
 }
