@@ -1,5 +1,6 @@
 package br.com.pedro.learningapring.controller;
 
+import br.com.pedro.learningapring.dto.CreatDeposit;
 import br.com.pedro.learningapring.model.User;
 import br.com.pedro.learningapring.service.UserServices;
 import org.springframework.http.HttpStatus;
@@ -59,4 +60,12 @@ public class UserController {
 
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT );
     }
+
+    @PostMapping("/{id}/deposit")
+    public ResponseEntity<User> creatDeposit(@RequestBody final CreatDeposit depositData, @PathVariable final String id) throws Exception{
+        final User userDeposit = userServices.createDeposit(depositData, Long.parseLong(id));
+
+        return new ResponseEntity<User>(userDeposit, HttpStatus.OK );
+    }
+
 }
