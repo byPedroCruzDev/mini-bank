@@ -1,6 +1,7 @@
 package br.com.pedro.learningapring.controller;
 
 import br.com.pedro.learningapring.dto.CreatDeposit;
+import br.com.pedro.learningapring.dto.UserDto;
 import br.com.pedro.learningapring.model.User;
 import br.com.pedro.learningapring.service.UserServices;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody final User userData){
+    public ResponseEntity<User> createUser(@RequestBody final UserDto userData){
         final User createdUser = userServices.createUser(userData);
 
         return new ResponseEntity<User>(createdUser, HttpStatus.CREATED);
@@ -48,7 +49,7 @@ public class UserController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@RequestBody final User userData, @PathVariable final String id) throws Exception{
+    public ResponseEntity<User> updateUser(@RequestBody final UserDto userData, @PathVariable final String id) throws Exception{
         final User user = userServices.updateUser(userData, Long.parseLong(id));
 
         return new ResponseEntity<User>(user,HttpStatus.OK );
