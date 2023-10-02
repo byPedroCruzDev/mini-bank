@@ -1,6 +1,7 @@
 package br.com.pedro.learningapring.service;
 
 import br.com.pedro.learningapring.dto.CreatDeposit;
+import br.com.pedro.learningapring.dto.UserDto;
 import br.com.pedro.learningapring.model.User;
 import br.com.pedro.learningapring.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ public class UserServices {
         this.userRepository = userRepository;
     }
 
-    public User createUser(final User userData) {
+    public User createUser(final UserDto userData) {
 
         final User user = new User(userData.getName(), userData.getCpf(), userData.getPassword(),
                                     userData.getEmail(), userData.getType());
@@ -33,12 +34,8 @@ public class UserServices {
         return user;
     }
 
-    public User updateUser(final User userData, final long id) throws Exception{
+    public User updateUser(final UserDto userData, final long id) throws Exception{
         final User foundUser = userRepository.findById(id).orElseThrow(() -> new Exception("User not found"));
-
-        System.out.println(foundUser);
-        System.out.println("---------");
-        System.out.println(id);
 
         foundUser.setName(userData.getName());
         foundUser.setCpf(userData.getCpf());
