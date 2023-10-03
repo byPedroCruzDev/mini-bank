@@ -2,8 +2,10 @@ package br.com.pedro.learningapring.service;
 
 import br.com.pedro.learningapring.dto.CreatDeposit;
 import br.com.pedro.learningapring.dto.UserDto;
+import br.com.pedro.learningapring.exception.AppException;
 import br.com.pedro.learningapring.model.User;
 import br.com.pedro.learningapring.repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,15 +30,15 @@ public class UserServices {
         return userRepository.findAll();
     }
 
-    public User retriveUser(final long id) throws Exception{
-        final User user = userRepository.findById(id).orElseThrow(() -> new Exception("User not found"));
+    public User retriveUser(final long id){
+        final User user = userRepository.findById(id).orElseThrow(() -> new AppException("User not found", HttpStatus.NOT_FOUND));
 
         return user;
     }
 
-    public User updateUser(final UserDto userData, final long id) throws Exception{
-        final User foundUser = userRepository.findById(id).orElseThrow(() -> new Exception("User not found"));
 
+    public User updateUser(final User userData, final long id){
+        final User foundUser = userRepository.findById(id).orElseThrow(() -> new AppException("User not found", HttpStatus.NOT_FOUND));
         foundUser.setName(userData.getName());
         foundUser.setCpf(userData.getCpf());
         foundUser.setEmail(userData.getEmail());
@@ -46,16 +48,16 @@ public class UserServices {
         return userRepository.save(foundUser);
     }
 
-    public User deleteUser(final long id) throws Exception{
-        final User foundUser = userRepository.findById(id).orElseThrow(() -> new Exception("User not found"));
+    public User deleteUser(final long id){
+        final User foundUser = userRepository.findById(id).orElseThrow(() -> new AppException("User not found", HttpStatus.NOT_FOUND));
 
         userRepository.delete(foundUser);
         return foundUser;
     }
 
 
-    public User createDeposit(final CreatDeposit depositData, final long id) throws Exception{
-        final User foundUser = userRepository.findById(id).orElseThrow(() -> new Exception("User not found"));
+    public User createDeposit(final CreatDeposit depositData, final long id){
+        final User foundUser = userRepository.findById(id).orElseThrow(() -> new AppException("User not found", HttpStatus.NOT_FOUND));
 
         final float currentBalance = foundUser.getBalance();
 

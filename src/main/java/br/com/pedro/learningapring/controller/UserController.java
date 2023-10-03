@@ -4,6 +4,7 @@ import br.com.pedro.learningapring.dto.CreatDeposit;
 import br.com.pedro.learningapring.dto.UserDto;
 import br.com.pedro.learningapring.model.User;
 import br.com.pedro.learningapring.service.UserServices;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +27,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody final UserDto userData){
+    public ResponseEntity<User> createUser(@Valid @RequestBody final UserDto userData){
         final User createdUser = userServices.createUser(userData);
 
         return new ResponseEntity<User>(createdUser, HttpStatus.CREATED);
@@ -41,7 +42,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> retriveUser(@PathVariable final String id) throws Exception{
+    public ResponseEntity<User> retriveUser(@PathVariable final String id){
         final User user = userServices.retriveUser(Long.parseLong(id));
 
         return new ResponseEntity<User>(user,HttpStatus.OK );
@@ -49,21 +50,22 @@ public class UserController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@RequestBody final UserDto userData, @PathVariable final String id) throws Exception{
+
+    public ResponseEntity<User> updateUser(@Valid @RequestBody final User userData, @PathVariable final String id) {
         final User user = userServices.updateUser(userData, Long.parseLong(id));
 
         return new ResponseEntity<User>(user,HttpStatus.OK );
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable final String id) throws Exception{
+    public ResponseEntity<Void> deleteUser(@PathVariable final String id) {
         final User user = userServices.deleteUser(Long.parseLong(id));
 
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT );
     }
 
     @PostMapping("/{id}/deposit")
-    public ResponseEntity<User> creatDeposit(@RequestBody final CreatDeposit depositData, @PathVariable final String id) throws Exception{
+    public ResponseEntity<User> creatDeposit(@Valid @RequestBody final CreatDeposit depositData, @PathVariable final String id) {
         final User userDeposit = userServices.createDeposit(depositData, Long.parseLong(id));
 
         return new ResponseEntity<User>(userDeposit, HttpStatus.OK );

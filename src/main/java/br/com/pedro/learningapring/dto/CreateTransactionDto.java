@@ -1,9 +1,15 @@
 package br.com.pedro.learningapring.dto;
 
-public class CreateTransactionDto {
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
 
+public class CreateTransactionDto {
+    @NotNull(message = "Payer id cannot be null")
     private long payer_id;
+    @NotNull(message = "Payee id cannot be null")
     private long payee_id;
+    @NotNull(message = "Value cannot be null")
+    @DecimalMin(value = "0.01", message = "Value must be higher than 0.01")
     private long value;
 
 
