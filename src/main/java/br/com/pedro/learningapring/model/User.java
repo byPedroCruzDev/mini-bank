@@ -87,4 +87,17 @@ public class User {
     public float getBalance() {
         return balance;
     }
+    //auxiliaa
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", type='" + type + '\'' +
+                ", balance=" + balance +
+                '}';
+    }
 }
