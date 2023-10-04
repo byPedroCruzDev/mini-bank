@@ -20,55 +20,63 @@ import java.util.Optional;
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserServices userServices;
+    private final UserServices userService;
 
-    public UserController(UserServices userServices) {
-        this.userServices = userServices;
+    public UserController(UserServices userService) {
+        this.userService = userService;
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@Valid @RequestBody final UserDto userData){
-        final User createdUser = userServices.createUser(userData);
+    public ResponseEntity<User> createUser(@Valid @RequestBody final UserDto userdata) {
 
-        return new ResponseEntity<User>(createdUser, HttpStatus.CREATED);
+        final User createdUser = userService.createUser(userdata);
+
+        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+
     }
 
-
     @GetMapping
-    public ResponseEntity<List<User>> readUser(){
-        final List<User> allUsers  = userServices.readUser();
+    public ResponseEntity<List<User>> readUsers() {
 
-        return new ResponseEntity<List<User>>(allUsers, HttpStatus.OK);
+        final List<User> allUsers = userService.readUser();
+
+        return new ResponseEntity<>(allUsers, HttpStatus.OK);
+
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> retriveUser(@PathVariable final String id){
-        final User user = userServices.retriveUser(Long.parseLong(id));
+    public ResponseEntity<User> retrieveUser(@PathVariable final String id) {
 
-        return new ResponseEntity<User>(user,HttpStatus.OK );
+        final User user = userService.retriveUser(Long.parseLong(id));
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
+
     }
 
-
     @PutMapping("/{id}")
-
     public ResponseEntity<User> updateUser(@Valid @RequestBody final UserDto userData, @PathVariable final String id) {
-        final User user = userServices.updateUser(userData, Long.parseLong(id));
 
-        return new ResponseEntity<User>(user,HttpStatus.OK );
+        final User updatedUser = userService.updateUser(userData, Long.parseLong(id));
+
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable final String id) {
-        final User user = userServices.deleteUser(Long.parseLong(id));
+    public ResponseEntity<Void> updateUser(@PathVariable final String id) {
 
-        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT );
+        userService.deleteUser(Long.parseLong(id));
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
     }
 
     @PostMapping("/{id}/deposit")
-    public ResponseEntity<User> creatDeposit(@Valid @RequestBody final CreatDeposit depositData, @PathVariable final String id) {
-        final User userDeposit = userServices.createDeposit(depositData, Long.parseLong(id));
+    public ResponseEntity<User> updateUser(@Valid @RequestBody final CreatDeposit depositData, @PathVariable final String id) {
 
-        return new ResponseEntity<User>(userDeposit, HttpStatus.OK );
+        final User depositedUser = userService.createDeposit(depositData, Long.parseLong(id));
+
+        return new ResponseEntity<>(depositedUser, HttpStatus.CREATED);
+
     }
-
 }
