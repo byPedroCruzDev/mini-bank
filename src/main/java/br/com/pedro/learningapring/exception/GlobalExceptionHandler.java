@@ -21,7 +21,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public GlobalExceptionHandler(MessageSource message) {
         this.message = message;
     }
-
+    @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex, final HttpHeaders headers, final HttpStatusCode status, final WebRequest request) {
 
         final HashMap<String, HashMap<String, String>> returnObject = new HashMap<>();
@@ -53,14 +53,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     }
 
-    @ExceptionHandler({Exception.class})
-    public ResponseEntity<Object> handleInternal(final RuntimeException ex, final WebRequest request){
+    @ExceptionHandler({ Exception.class })
+    public ResponseEntity<Object> handleInternal(final RuntimeException ex, final WebRequest request) {
 
         final HashMap<String, String> returnObject = new HashMap<>();
-        returnObject.put("message", message.getMessage("messege.error", null, request.getLocale()));
+        returnObject.put("message", message.getMessage("message.error", null, request.getLocale()));
 
         System.out.println(ex.getMessage());
 
         return new ResponseEntity<>(returnObject, HttpStatus.INTERNAL_SERVER_ERROR);
+
     }
 }

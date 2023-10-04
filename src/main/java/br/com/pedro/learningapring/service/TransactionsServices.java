@@ -9,6 +9,8 @@ import br.com.pedro.learningapring.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 public class TransactionsServices {
 
@@ -22,9 +24,19 @@ public class TransactionsServices {
 
     public Transaction createTransaction(final CreateTransactionDto transactionData){
         final User foundPayer = userRepository.findById(transactionData.getPayer_id()).orElseThrow(() ->new AppException("User not found", HttpStatus.NOT_FOUND));
+        if (Objects.equals(foundPayer.getType(), "SELLER")) {
+            throw new AppException("invalidUserType", HttpStatus.FORBIDDEN);
+        }
+
         final User foundPayee = userRepository.findById(transactionData.getPayee_id()).orElseThrow(() ->new AppException("User not found", HttpStatus.NOT_FOUND));
 
         final float payerCurrentBalance = foundPayer.getBalance();
+        final float transactionValue = transactionData.getValue();
+
+
+        if (payerCurrentBalance < transactionValue) {
+            throw new AppException("balanceNotSufficient", HttpStatus.FORBIDDEN);
+        }
         final float payeeCurrentBalance = foundPayee.getBalance();
 
         foundPayer.setBalance(payerCurrentBalance - transactionData.getValue());
