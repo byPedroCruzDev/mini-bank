@@ -2,14 +2,16 @@ package br.com.pedro.learningapring.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class AppException extends RuntimeException{
+public class AppException extends RuntimeException {
+
     private HttpStatus statusCode;
 
     public AppException(String message, HttpStatus statusCode) {
         super(message);
         this.statusCode = statusCode;
     }
-    public HttpStatus getStatusCode(){
+
+    public HttpStatus getStatusCode() {
         return statusCode;
     }
 

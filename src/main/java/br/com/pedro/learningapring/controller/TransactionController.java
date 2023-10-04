@@ -11,24 +11,27 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/transaction")
 public class TransactionController {
-    final TransactionsServices transactionsServices;
-    public TransactionController(TransactionsServices transactionsServices) {
-        this.transactionsServices = transactionsServices;
+    final TransactionsServices transactionService;
+
+    public TransactionController(TransactionsServices transactionService) {
+        this.transactionService = transactionService;
     }
 
     @PostMapping
-    public ResponseEntity<Transaction> createTransaction(@Valid @RequestBody final CreateTransactionDto transactionData)  {
-        final Transaction createdTransaction = transactionsServices.createTransaction(transactionData);
+    public ResponseEntity<Transaction> createTransaction(@Valid @RequestBody final CreateTransactionDto transactionData) throws Exception {
 
+        final Transaction createdTransaction = transactionService.createTransaction(transactionData);
 
-        return new ResponseEntity<Transaction>(createdTransaction, HttpStatus.CREATED);
+        return new ResponseEntity<>(createdTransaction, HttpStatus.CREATED);
+
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Transaction> retrieveTransaction(@PathVariable final String id)  {
+    public ResponseEntity<Transaction> retrieveTransaction(@PathVariable final String id) {
 
-        final Transaction transaction = transactionsServices.retriveTransaction(Long.parseLong(id));
+        final Transaction transaction = transactionService.retriveTransaction(Long.parseLong(id));
 
-        return new ResponseEntity<Transaction>(transaction, HttpStatus.OK);
+        return new ResponseEntity<>(transaction, HttpStatus.OK);
 
     }
 }
