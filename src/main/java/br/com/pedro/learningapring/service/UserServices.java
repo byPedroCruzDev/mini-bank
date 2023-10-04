@@ -19,7 +19,17 @@ public class UserServices {
         this.userRepository = userRepository;
     }
 
+    private void checkEmailAndCpf(final UserDto userData){
+        if(userRepository.existsUserByCpf(userData.getCpf())){
+            throw new AppException("cpfAlreadyInUse", HttpStatus.CONFLICT);
+        }
+        if (userRepository.existsUserByEmail(userData.getEmail())) {
+            throw new AppException("emailAlreadyInUse", HttpStatus.CONFLICT);
+        }
+    }
+
     public User createUser(final UserDto userData) {
+        checkEmailAndCpf(userData);
 
         final User user = new User(userData.getName(), userData.getCpf(), userData.getPassword(),
                                     userData.getEmail(), userData.getType());
@@ -37,7 +47,11 @@ public class UserServices {
     }
 
 
-    public User updateUser(final User userData, final long id){
+    public User updateUser(final UserDto userData, final long id){
+        checkEmailAndCpf(userData);
+        System.out.println(userData);
+        System.out.println("----------------------");
+
         final User foundUser = userRepository.findById(id).orElseThrow(() -> new AppException("User not found", HttpStatus.NOT_FOUND));
         foundUser.setName(userData.getName());
         foundUser.setCpf(userData.getCpf());
