@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -28,7 +27,8 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> createUser(@Valid @RequestBody final UserDto userdata) {
-
+        System.out.println(userdata);
+        System.out.println("------------");
         final User createdUser = userService.createUser(userdata);
 
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
@@ -38,7 +38,7 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<User>> readUsers() {
 
-        final List<User> allUsers = userService.readUser();
+        final List<User> allUsers = userService.readUsers();
 
         return new ResponseEntity<>(allUsers, HttpStatus.OK);
 
@@ -47,7 +47,7 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<User> retrieveUser(@PathVariable final String id) {
 
-        final User user = userService.retriveUser(Long.parseLong(id));
+        final User user = userService.retrieveUser(Long.parseLong(id));
 
         return new ResponseEntity<>(user, HttpStatus.OK);
 
