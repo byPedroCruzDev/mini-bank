@@ -1,3 +1,3 @@
 # mini-bank
 
-Java + SpringBoot
+## Java + SpringBoot
