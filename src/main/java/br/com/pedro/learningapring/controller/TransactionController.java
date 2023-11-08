@@ -25,13 +25,11 @@ public class TransactionController {
         return new ResponseEntity<>(createdTransaction, HttpStatus.CREATED);
 
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<Transaction> retrieveTransaction(@PathVariable final String id) {
 
         final Transaction transaction = transactionService.retrieveTransaction(Long.parseLong(id));
 
         return new ResponseEntity<>(transaction, HttpStatus.OK);
-
     }
 }
